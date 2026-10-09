@@ -1,6 +1,6 @@
 let smartOverlay = null;
 let currentVideo = null;
-let currentPosition = 'top'; // 'top' | 'bottom'
+let currentPosition = 'top';
 let isEvading = false;
 let lastMoveTime = 0;
 
@@ -22,7 +22,6 @@ function injectTriggerButton() {
   `;
 
   btn.addEventListener('click', () => {
-    // انتخاب بزرگ‌ترین ویدیوی حاضر در صفحه
     const videos = Array.from(document.querySelectorAll('video'))
       .filter(v => v.readyState > 0 && v.videoWidth > 0)
       .sort((a, b) => (b.videoWidth * b.videoHeight) - (a.videoWidth * a.videoHeight));
@@ -30,7 +29,7 @@ function injectTriggerButton() {
     currentVideo = videos[0] || document.querySelector('video');
 
     if (!currentVideo) {
-      alert('ویدیویی برای پخش پیدا نشد.');
+      alert('ویدیویی پیدا نشد!');
       return;
     }
 
@@ -54,14 +53,14 @@ function createSmartOverlay(video) {
         <span>Smart Mode</span>
       </div>
       <div class="spip-actions">
-        <button class="spip-btn-icon" id="spip-dock-btn" title="تبدیل به پنجره دسکتاپ (روی ورد و سایر تب‌ها)">
+        <button class="spip-btn-icon" id="spip-dock-btn" title="OS Picture-in-Picture">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
             <polyline points="15 3 21 3 21 9"></polyline>
             <line x1="10" y1="14" x2="21" y2="3"></line>
           </svg>
         </button>
-        <button class="spip-btn-icon" id="spip-close-btn" title="بستن">✕</button>
+        <button class="spip-btn-icon" id="spip-close-btn" title="Close">✕</button>
       </div>
     </div>
     <div class="spip-view-wrapper">
@@ -71,7 +70,6 @@ function createSmartOverlay(video) {
 
   document.body.appendChild(smartOverlay);
 
-  // پایدارسازی استریم با Canvas Mirroring بدون تغییر ساختار پلیر اصلی
   const canvas = smartOverlay.querySelector('#spip-stream-canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = 320;
@@ -86,7 +84,6 @@ function createSmartOverlay(video) {
   }
   renderLoop();
 
-  // بستن پنجره
   smartOverlay.querySelector('#spip-close-btn').addEventListener('click', () => {
     smartOverlay.remove();
     smartOverlay = null;
@@ -94,7 +91,6 @@ function createSmartOverlay(video) {
     if (btn) btn.style.display = 'flex';
   });
 
-  // تبدیل به پنجره سیستم‌عامل (کار در Word و تمام تب‌ها)
   smartOverlay.querySelector('#spip-dock-btn').addEventListener('click', async () => {
     try {
       if (document.pictureInPictureElement) {
@@ -103,7 +99,7 @@ function createSmartOverlay(video) {
         await video.requestPictureInPicture();
       }
     } catch (e) {
-      console.error('OS PiP failed:', e);
+      console.error(e);
     }
   });
 

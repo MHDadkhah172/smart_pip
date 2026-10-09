@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Smart PiP",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "description": "Smart repositioning and global PiP extension",
   "permissions": ["activeTab"],
   "content_scripts": [
