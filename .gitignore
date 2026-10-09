@@ -1,0 +1,18 @@
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor Configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Extension Builds and Archives
+*.crx
+*.zip
+*.pem
+
+# Logs
+*.log
+npm-debug.log*
